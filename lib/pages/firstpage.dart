@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:lab8/auth_service.dart';
+import 'package:lab8/pages/Succese.dart';
 import 'package:lab8/pages/registerpage.dart';
 
 class MyWidget extends StatefulWidget {
@@ -13,9 +15,9 @@ class MyWidget extends StatefulWidget {
 class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
-    final _formkey = GlobalKey<FormState>();
-    TextEditingController _email = TextEditingController();
-    TextEditingController _password = TextEditingController();
+    final formkey = GlobalKey<FormState>();
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
     return Scaffold(
         appBar: AppBar(
           title: Text('Firebase'),
@@ -26,24 +28,36 @@ class _MyWidgetState extends State<MyWidget> {
               // ---------------------------------------------User--------------------------------------------- 
               Text('Email'),
               TextFormField(
-                controller: _email,
+                controller: email,
+                validator: (value) {
+                   if (value == null || value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                      return null;
+                    }
               ),
 
               // ---------------------------------------------Password---------------------------------------------
               Text('Password'),
               TextFormField(
-                controller: _password,
+                controller: password,
                 obscureText: true,
               ),
 
               // ---------------------------------------------Button---------------------------------------------
               ElevatedButton(
-                onPressed: () {},child:Text('Summit')),
+                onPressed: () {
+                    AuthService.signInFunc(email.text, password.text);
+                    Navigator.push(
+                    context,MaterialPageRoute(builder: (context) => const MySuccese()),);
+                },
+                child:Text('Summit')),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
-                    context,MaterialPageRoute(builder: (context) => const MyRegister()),);
-                },child:Text('Register'))
+                  context,MaterialPageRoute(builder: (context) => const MyRegister()),);
+                },
+                child:Text('Register'))
             ]
           )
       )

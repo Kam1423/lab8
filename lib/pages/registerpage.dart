@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:lab8/auth_service.dart';
 
 class MyRegister extends StatefulWidget {
   const MyRegister({super.key});
@@ -12,40 +11,41 @@ class MyRegister extends StatefulWidget {
 class _MyWidgetState extends State<MyRegister> {
   @override
   Widget build(BuildContext context) {
-    final _formkey = GlobalKey<FormState>();
-    TextEditingController _username = TextEditingController();
-    TextEditingController _email = TextEditingController();
-    TextEditingController _password = TextEditingController();
+    final formkey = GlobalKey<FormState>();
+    TextEditingController email = TextEditingController();
+    TextEditingController password = TextEditingController();
+
     return Scaffold(
         appBar: AppBar(
-          title: Text('Firebase'),
+          title: Text('Register'),
         ),
         body: SafeArea(
           child: ListView(
             children: [
-
-              // ---------------------------------------------User--------------------------------------------- 
-              Text('Username'),
+              // ---------------------------------------------Email--------------------------------------------- 
+              Text('Email'),
               TextFormField(
-                controller: _username,
-              ),
-
-              // ---------------------------------------------User--------------------------------------------- 
-              Text('Password'),
-              TextFormField(
-                controller: _email,
+                controller: email,
               ),
 
               // ---------------------------------------------Password---------------------------------------------
-              Text('Email'),
+              Text('Password'),
               TextFormField(
-                controller: _password,
+                controller: password,
                 obscureText: true,
               ),
 
               // ---------------------------------------------Button---------------------------------------------
               ElevatedButton(
-                onPressed: () {},child:Text('Summit')),
+                onPressed: () {
+                //  if (formkey.currentState!.validate()){
+                    AuthService.registerFunc(email.text, password.text).then((value) {
+                      print(email.text);
+                      Navigator.pop(context);
+                    });
+                 // }
+                },
+                child:Text('Summit')),
             ]
           )
       )
